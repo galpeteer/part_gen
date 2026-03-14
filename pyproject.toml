@@ -1,7 +1,7 @@
 [project]
 name = "part-gen"
 version = "0.1.0"
-description = "Add your description here"
+description = "Fastener generation package"
 readme = "README.md"
 authors = [
     { name = "galpeteer", email = "gal.peteer@gmail.com" }

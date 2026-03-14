@@ -15,17 +15,29 @@ TODO:
 - Logging
 """
 
-def generate_washer(_outer_diameter, _inner_diameter, _thickness):
 
+def generate_washer(_outer_diameter, _inner_diameter, _thickness):
+    if _outer_diameter <= 0:
+        raise ValueError("Outer diameter must be positive")
+    if _inner_diameter <= 0:
+        raise ValueError("Inner diameter must be positive")
+    if _thickness <= 0:
+        raise ValueError("Thickness must be positive")
+    if _inner_diameter >= _outer_diameter:
+        raise ValueError("Inner diameter must be smaller than outer diameter")
+    
     #choose workplane . outer diam . extrude thickness . select top face . hole diam
 
-    _result= cq.Workplane("XY").circle(_outer_diameter / 2).extrude(_thickness).faces(">Z").hole(_inner_diameter / 2)
+    _result= cq.Workplane("XY").circle(_outer_diameter / 2).extrude(_thickness).faces(">Z").hole(_inner_diameter)
 
     return _result
     
 
 def generate_bolt(_diameter, _length):
-
+    if _diameter <= 0:
+        raise ValueError("Diameter must be positive")
+    if _length <= 0:
+        raise ValueError("Length must be positive")
     # calculations up for discussion, also I think pitch diameter should be used
     # instead of outer diameter for thread, but for now we can just use diameter as a placeholder
 
@@ -36,16 +48,21 @@ def generate_bolt(_diameter, _length):
 
     # choose workplane . head diam . extrude head . select top face . bolt diam . extrude length
 
-    _result = cq.Workplane("XY").circle(_head_diameter).extrude(_head_thickness).faces(">Z").circle(_bolt_diameter).extrude(_length)
+    _result = cq.Workplane("XY").circle(_head_diameter/2).extrude(_head_thickness).faces(">Z").circle(_bolt_diameter/2).extrude(_length)
 
     return _result
+
+
+def export_result(_result, _filename):
+    _result.export(_filename)
+
 
 if __name__ == "__main__":
     
     DIR = os.path.dirname(__file__)
 
     result_w =generate_washer(20, 10, 5)
-    result_w.export(DIR + "/result_washer.step")
+    export_result(result_w, DIR + "/result_washer.step")
 
     result_b = generate_bolt(10, 50)
-    result_b.export(DIR + "/result_bolt.step")
+    export_result(result_b, DIR + "/result_bolt.step")
