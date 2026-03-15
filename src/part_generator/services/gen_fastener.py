@@ -55,6 +55,7 @@ def generate_bolt(_diameter, _length):
 
 def export_result(_result, _filename):
     _result.export(_filename)
+    return _filename
 
 
 if __name__ == "__main__":

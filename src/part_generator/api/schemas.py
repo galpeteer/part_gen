@@ -1,10 +1,10 @@
-from pydantic import BaseClass
+from pydantic import BaseModel
 
-class WasherRequest(BaseClass):
+class WasherRequest(BaseModel):
     inner_diameter: float
     outer_diameter: float
     thickness: float
 
-class BoltRequest(BaseClass):
+class BoltRequest(BaseModel):
     diameter: float
     length: float
