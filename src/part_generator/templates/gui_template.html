@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<body>
+  <h1>Fastener Generation API</h1>
+  <form method = "get">
+    <fieldset>
+    <legend>Pick part to generate</legend>
+
+    <input type="radio" id="part-washer" name="part" value="washer" checked/>
+    <label for="part-washer">Washer</label>
+
+    <br />
+
+    <input type="radio" id="part-bolt" name="part" value="bolt" />
+    <label for="part-bolt">Bolt</label>
+
+    </fieldset>
+
+    <fieldset>
+        <legend>Enter parameters</legend>
+         <p>Outer Diameter: <input type="number" name="outer_diameter" step="0.01" required /></p>
+         <p>Inner Diameter: <input type="number" name="inner_diameter" step="0.01" required /></p>
+         <p>Thickness: <input type="number" name="thickness" step="0.01" required /></p>
+         <input class="styled" type="button" value="Generate washer" />
+    </fieldset>
+    <fieldset>
+        <legend>Enter parameters</legend>
+         <p>Diameter: <input type="number" name="diameter" step="0.01" required /></p>
+         <p>Length: <input type="number" name="length" step="0.01" required /></p>
+         <input class="styled" type="button" value="Generate bolt" />
+    </fieldset>
+
+  </form>
+
+  <script>
+
+  </script>
+</body>
+</html>

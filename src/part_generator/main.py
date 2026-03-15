@@ -1,9 +1,17 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
+from fastapi.templating import Jinja2Templates
+
 from part_generator.api.schemas import WasherRequest, BoltRequest
 from part_generator.services.gen_fastener import generate_washer, generate_bolt, export_result
 
 app = FastAPI()
+
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/")
+def home_root(request: Request, part: str = "washer"):
+    return templates.TemplateResponse({"part": part}, "gui_template.html")
 
 @app.post("/v1/generate/washer")
 def washer_request(request: WasherRequest):
