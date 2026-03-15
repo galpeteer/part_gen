@@ -1,5 +1,9 @@
 import requests
 
+#Application needs to run for this test to work
+# in CLI,from project root, run:
+# uv run fastapi dev src/part_generator/main.py
+
 response_washer = requests.post(
     "http://127.0.0.1:8000/v1/generate/washer",
     json={
