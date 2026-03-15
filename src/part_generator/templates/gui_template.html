@@ -3,7 +3,7 @@
 
 <body>
   <h1>Fastener Generation API</h1>
-  <form method = "get">
+  <form>
     <fieldset>
     <legend>Pick part to generate</legend>
 
@@ -19,22 +19,98 @@
 
     <fieldset>
         <legend>Enter parameters</legend>
-         <p>Outer Diameter: <input type="number" name="outer_diameter" step="0.01" required /></p>
-         <p>Inner Diameter: <input type="number" name="inner_diameter" step="0.01" required /></p>
-         <p>Thickness: <input type="number" name="thickness" step="0.01" required /></p>
-         <input class="styled" type="button" value="Generate washer" />
+         <p>Outer Diameter: <input type="number" id ="outer_diameter" name="outer_diameter" step="0.1" required /></p>
+         <p>Inner Diameter: <input type="number" id="inner_diameter" name="inner_diameter" step="0.1" required /></p>
+         <p>Thickness: <input type="number" id="thickness" name="thickness" step="0.1" required /></p>
+         <input class="styled" type="button" id="generate-washer" value="Generate washer" />
     </fieldset>
     <fieldset>
         <legend>Enter parameters</legend>
-         <p>Diameter: <input type="number" name="diameter" step="0.01" required /></p>
-         <p>Length: <input type="number" name="length" step="0.01" required /></p>
-         <input class="styled" type="button" value="Generate bolt" />
+         <p>Diameter: <input type="number" id="diameter" name="diameter" step="0.1" required /></p>
+         <p>Length: <input type="number" id="length" name="length" step="0.1" required /></p>
+         <input class="styled" type="button" id="generate-bolt" value="Generate bolt" />
     </fieldset>
 
   </form>
-
   <script>
 
+        washer_select = document.getElementById("part-washer");
+        bolt_select = document.getElementById("part-bolt");
+
+        washer_fields = document.getElementsByTagName("fieldset")[1];
+        bolt_fields = document.getElementsByTagName("fieldset")[2];
+
+        function changeFields() {
+            if (washer_select.checked) 
+            {
+                washer_fields.style.display = "block";
+                bolt_fields.style.display = "none";
+            }
+
+            else if (bolt_select.checked) 
+            {
+                washer_fields.style.display = "none";
+                bolt_fields.style.display = "block";
+            }
+        }
+
+        washer_select.addEventListener("change", changeFields);
+        bolt_select.addEventListener("change", changeFields);
+
+        changeFields(); 
   </script>
+
+  <script>
+    async function callGenerator(endpoint, payload, filename) {
+        response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            text = await response.text();
+            alert("Generation failed: " + text);
+            return;
+        }
+
+        blob = await response.blob();
+        url = window.URL.createObjectURL(blob);
+
+        a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("generate-washer").addEventListener("click", function () {
+        callGenerator(
+            "/v1/generate/washer",
+            {
+                outer_diameter: Number(document.getElementById("outer_diameter").value),
+                inner_diameter: Number(document.getElementById("inner_diameter").value),
+                thickness: Number(document.getElementById("thickness").value)
+            },
+            "washer.step"
+        );
+    });
+
+    document.getElementById("generate-bolt").addEventListener("click", function () {
+        callGenerator(
+            "v1/generate/bolt",
+            {
+                diameter: Number(document.getElementById("diameter").value),
+                length: Number(document.getElementById("length").value)
+            },
+            "bolt.step"
+        );
+    });
+</script>
 </body>
 </html>
