@@ -25,7 +25,6 @@ def washer_request(request: WasherRequest):
 
     try: 
         result = generate_washer(request.outer_diameter, request.inner_diameter, request.thickness)
-        filename = f'washer_temp_{datetime.now().strftime("%Y%m%d%H%M%S")}.step'
 
         with NamedTemporaryFile(suffix=".step", delete=False) as tmp:
             temp_path = Path(tmp.name)
@@ -34,7 +33,7 @@ def washer_request(request: WasherRequest):
 
         return FileResponse(
                 path=temp_path,
-                filename=filename,
+
                 media_type="application/octet-stream",
             )
     except ValueError as e:
@@ -45,7 +44,6 @@ def washer_request(request: WasherRequest):
 def bolt_request(request: BoltRequest):
     try:
         result = generate_bolt(request.diameter, request.length)
-        filename = f'bolt_temp_{datetime.now().strftime("%Y%m%d%H%M%S")}.step'
 
         with NamedTemporaryFile(suffix=".step", delete=False) as tmp:
             temp_path = Path(tmp.name)
@@ -54,7 +52,6 @@ def bolt_request(request: BoltRequest):
 
         return FileResponse(
                 path=temp_path,
-                filename=filename,
                 media_type="application/octet-stream",
             )
     except ValueError as e:
