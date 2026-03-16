@@ -9,13 +9,16 @@ from part_generator.services.gen_fastener import generate_washer, generate_bolt,
 
 app = FastAPI()
 
+# for UI template
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
+# UI endpoint
 @app.get("/")
 def home_root(request: Request, part: str = "washer"):
     return templates.TemplateResponse(request=request, name="gui_template.html", context={"part": part})
 
+# Washer generation endpoint - accepts POST request with JSON body containing outer_diameter, inner_diameter, thickness
 @app.post("/v1/generate/washer")
 def washer_request(request: WasherRequest):
 
@@ -26,12 +29,13 @@ def washer_request(request: WasherRequest):
 
         return FileResponse(
                 path=filename,
-                filename="washer.step",
+                filename=filename,
                 media_type="application/octet-stream",
             )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    
+
+# Bolt generation endpoint - accepts POST request with JSON body containing diameter, length
 @app.post("/v1/generate/bolt")
 def bolt_request(request: BoltRequest):
     try:
@@ -41,7 +45,7 @@ def bolt_request(request: BoltRequest):
 
         return FileResponse(
                 path=filename,
-                filename="bolt.step",
+                filename=filename,
                 media_type="application/octet-stream",
             )
     except ValueError as e:

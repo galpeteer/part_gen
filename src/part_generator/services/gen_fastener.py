@@ -8,11 +8,10 @@ Currently:
 - Washer
 - Bolt
 Used by main.py api endpoints, input validated by pydantic schemas in schemas.py
-
-TODO:
-- Add more fastener types (e.g. nuts, screws)
-- Describe exact standards to follow (e.g. DIN, ISO) for each part type
-- Logging
+Functions:
+- generate_washer(outer_diameter, inner_diameter, thickness): generates a washer model based on input dimensions, returns cadquery object
+- generate_bolt(diameter, length): generates a bolt model based on input dimensions, returns cadquery object
+- export_result(result, filename): exports the given cadquery result to a file with the specified filename, returns filename
 """
 
 
@@ -59,6 +58,8 @@ def export_result(_result, _filename):
 
 
 if __name__ == "__main__":
+    # Example usage - generates a washer and bolt with specified dimensions 
+    # and exports them to STEP files in the same directory as this script
     
     DIR = os.path.dirname(__file__)
 
