@@ -11,6 +11,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
+    libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv
