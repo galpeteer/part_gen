@@ -1,13 +1,15 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
+from pathlib import Path
 
 from part_generator.api.schemas import WasherRequest, BoltRequest
 from part_generator.services.gen_fastener import generate_washer, generate_bolt, export_result
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/")
 def home_root(request: Request, part: str = "washer"):
