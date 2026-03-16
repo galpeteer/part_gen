@@ -53,14 +53,14 @@ def generate_bolt(_diameter, _length):
 
 
 def export_result(_result, _filename):
-    _result.export(_filename)
+    _result.export(str(_filename))
     return _filename
 
 
 if __name__ == "__main__":
     # Example usage - generates a washer and bolt with specified dimensions 
     # and exports them to STEP files in the same directory as this script
-    
+
     DIR = os.path.dirname(__file__)
 
     result_w =generate_washer(20, 10, 5)
