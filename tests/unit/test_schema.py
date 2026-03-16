@@ -1,12 +1,5 @@
 import unittest
-import os
-import sys
-from pathlib import Path
 from pydantic import ValidationError
-
-root = Path(__file__).parent.parent.parent #part_generator
-src_path = root / "src"
-sys.path.append(str(src_path))
 
 from part_generator.api.schemas import WasherRequest, BoltRequest
 

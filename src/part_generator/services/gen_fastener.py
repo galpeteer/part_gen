@@ -1,6 +1,6 @@
 import cadquery as cq
 import os
-import logging
+
 
 """
 This file contains the generation logic for different parts.

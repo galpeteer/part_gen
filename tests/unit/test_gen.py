@@ -1,12 +1,5 @@
 import unittest
 import os 
-import sys
-from pathlib import Path
-from pydantic import ValidationError
-# Add the src directory to the Python path
-root = Path(__file__).parent.parent.parent #part_gen
-src_path = root / "src"
-sys.path.append(str(src_path))
 
 from part_generator.services.gen_fastener import generate_washer, generate_bolt, export_result
 
