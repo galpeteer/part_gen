@@ -97,18 +97,18 @@
                 inner_diameter: Number(document.getElementById("inner_diameter").value),
                 thickness: Number(document.getElementById("thickness").value)
             },
-            "washer.step"
+            `washer_${new Date().toISOString().replace(/[:.-]/g, "")}.step`
         );
     });
 
     document.getElementById("generate-bolt").addEventListener("click", function () {
         callGenerator(
-            "v1/generate/bolt",
+            "/v1/generate/bolt",
             {
                 diameter: Number(document.getElementById("diameter").value),
                 length: Number(document.getElementById("length").value)
             },
-            "bolt.step"
+            `bolt_${new Date().toISOString().replace(/[:.-]/g, "")}.step`
         );
     });
 </script>
