@@ -3,6 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from datetime import datetime
+from tempfile import NamedTemporaryFile
 
 from part_generator.api.schemas import WasherRequest, BoltRequest
 from part_generator.services.gen_fastener import generate_washer, generate_bolt, export_result
@@ -24,11 +25,15 @@ def washer_request(request: WasherRequest):
 
     try: 
         result = generate_washer(request.outer_diameter, request.inner_diameter, request.thickness)
-        filename = f'washer_temp_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.step'
-        export_result(result, filename)
+        filename = f'washer_temp_{datetime.now().strftime("%Y%m%d%H%M%S")}.step'
+
+        with NamedTemporaryFile(suffix=".step", delete=False) as tmp:
+            temp_path = Path(tmp.name)
+
+        export_result(result, temp_path)
 
         return FileResponse(
-                path=filename,
+                path=temp_path,
                 filename=filename,
                 media_type="application/octet-stream",
             )
@@ -40,11 +45,15 @@ def washer_request(request: WasherRequest):
 def bolt_request(request: BoltRequest):
     try:
         result = generate_bolt(request.diameter, request.length)
-        filename = f'bolt_temp_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.step'
-        export_result(result, filename)
+        filename = f'bolt_temp_{datetime.now().strftime("%Y%m%d%H%M%S")}.step'
+
+        with NamedTemporaryFile(suffix=".step", delete=False) as tmp:
+            temp_path = Path(tmp.name)
+
+        export_result(result, temp_path)
 
         return FileResponse(
-                path=filename,
+                path=temp_path,
                 filename=filename,
                 media_type="application/octet-stream",
             )

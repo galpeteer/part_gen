@@ -93,11 +93,11 @@ The bolt is simplified as two cylinders, the head and the shaft
 
 Assumptions about the diameters:
 
-```
+
 head_diameter  = 1.5 * nominal_diameter
 head_thickness = 0.8 * nominal_diameter
 shaft diameter is currently the input diameter, however for FEM simulations using the pitch diameter could be considered.
-```
+
 
 Parameters:
 
@@ -129,7 +129,7 @@ Example request:
 Response:
 
 ```
-waher_{timestamp}.step STEP file download
+washer_{timestamp}.step STEP file download
 ```
 
 ---
