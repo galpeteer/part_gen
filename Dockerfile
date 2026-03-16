@@ -12,6 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     libgl1 \
+    libglu1-mesa \
+    libxrender1 \
+    libxext6 \
+    libsm6 \
+    libx11-6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv
